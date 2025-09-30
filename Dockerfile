@@ -9,10 +9,10 @@ WORKDIR /app
 COPY . .
 
 # Restore NuGet packages
-RUN dotnet restore FCG.Orders.sln
+RUN dotnet restore FCG.Payments.sln
 
 # Build the application in Release mode
-RUN dotnet build FCG.Orders.sln -c Release --no-restore
+RUN dotnet build FCG.Payments.sln -c Release --no-restore
 
 # Publish the application
 RUN dotnet publish API/API.csproj -c Release -o /app/publish --no-restore

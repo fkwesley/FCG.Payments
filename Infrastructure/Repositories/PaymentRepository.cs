@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
 
         public Payment GetPaymentById(int id)
         {
-            return _context.Payments.FirstOrDefault(o => o.OrderId == id)
+            return _context.Payments.FirstOrDefault(o => o.PaymentId == id)
                 ?? throw new KeyNotFoundException($"Payment with ID {id} not found.");
         }
 
@@ -34,19 +34,19 @@ namespace Infrastructure.Repositories
 
         public Payment UpdatePayment(Payment payment)
         {
-            var existingOrder = GetPaymentById(payment.OrderId);
+            var existingPayment = GetPaymentById(payment.PaymentId);
 
-            if (existingOrder != null) {
-                existingOrder.Status = payment.Status;
-                existingOrder.UpdatedAt = DateTime.UtcNow;
+            if (existingPayment != null) {
+                existingPayment.Status = payment.Status;
+                existingPayment.UpdatedAt = DateTime.UtcNow;
 
-                _context.Payments.Update(existingOrder);
+                _context.Payments.Update(existingPayment);
                 _context.SaveChanges();
             }
             else
                 throw new KeyNotFoundException($"Payment with ID {payment.OrderId} not found.");
 
-            return existingOrder;
+            return existingPayment;
         }
 
         public bool DeletePayment(int id)

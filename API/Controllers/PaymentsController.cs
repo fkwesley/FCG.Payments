@@ -22,7 +22,7 @@ namespace API.Controllers
         /// <summary>
         /// Returns all payments registered.
         /// </summary>
-        /// <returns>List of Orders</returns>
+        /// <returns>List of Payments</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PaymentResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
@@ -54,8 +54,8 @@ namespace API.Controllers
         /// <summary>
         /// Add a payment.
         /// </summary>
-        /// <returns>Object order added</returns>
-        [HttpPost(Name = "Order")]
+        /// <returns>Object payment added</returns>
+        [HttpPost(Name = "Payment")]
         [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
@@ -63,8 +63,8 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
         public IActionResult Add([FromBody] AddPaymentRequest paymentRequest)
         {
-            var createdOrder = _paymentService.AddPayment(paymentRequest);
-            return CreatedAtAction(nameof(GetById), new { id = createdOrder.OrderId }, createdOrder);
+            var createdPayment = _paymentService.AddPayment(paymentRequest);
+            return CreatedAtAction(nameof(GetById), new { id = createdPayment.OrderId }, createdPayment);
         }
         #endregion
 
@@ -72,7 +72,7 @@ namespace API.Controllers
         /// <summary>
         /// Update a payment.
         /// </summary>
-        /// <returns>Object Order updated</returns>
+        /// <returns>Object Payment updated</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
@@ -91,7 +91,7 @@ namespace API.Controllers
 
         #region DELETE
         /// <summary>
-        /// Delete a order.
+        /// Delete a payment.
         /// </summary>
         /// <returns>No content</returns>
         [HttpDelete("{id}")]

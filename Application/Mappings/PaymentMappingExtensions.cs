@@ -1,17 +1,18 @@
 ﻿using Application.DTO.Payment;
-using Domain.Entities;
 using Application.Helpers;
+using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 
 namespace Application.Mappings
 {
-    public static class OrderMappingExtensions
+    public static class PaymentMappingExtensions
     {
         /// <summary>
-        /// Maps a AddPaymentRequest to a Order entity.
+        /// Maps a AddPaymentRequest to a Payment entity.
         public static Payment ToEntity(this AddPaymentRequest request)
         {
-            return new Payment
+            var payment = new Payment
             {
                 OrderId = request.OrderId,
                 PaymentMethod = request.PaymentMethod,
@@ -22,10 +23,22 @@ namespace Application.Mappings
                 Cvv = request.Cvv ?? string.Empty,
                 ExpiryDate = request.ExpiryDate ?? string.Empty
             };
+
+
+            if (payment.PaymentMethod != PaymentMethod.Pix)
+            {
+                if (!payment.IsValidCardNumber())
+                    throw new BusinessException("Invalid card number.");
+
+                if (!payment.IsValidExpiryDate())
+                    throw new BusinessException("The card has already expired. Provide a new card");
+            }
+
+            return payment;
         }
 
         /// <summary>
-        /// Maps a UpdatePaymentRequest to a Order entity.
+        /// Maps a UpdatePaymentRequest to a Payment entity.
         public static Payment ToEntity(this UpdatePaymentRequest request)
         {
             return new Payment
@@ -37,7 +50,7 @@ namespace Application.Mappings
         }
 
         /// <summary>
-        /// Maps a Order entity to a PaymentResponse.
+        /// Maps a Payment entity to a PaymentResponse.
         public static PaymentResponse ToResponse(this Payment entity)
         {
             return new PaymentResponse

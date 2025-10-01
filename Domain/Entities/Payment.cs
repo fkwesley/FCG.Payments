@@ -1,12 +1,14 @@
 ﻿using Domain.Enums;
+using Domain.Exceptions;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Domain.Entities
 {
+    [DebuggerDisplay("PaymentId: {PaymentId}, OrderId: {OrderId}, PaymentMethod: {PaymentMethod} }")]
     public class Payment
     {
-        [DebuggerDisplay("PaymentId: {PaymentId}, OrderId: {OrderId}, PaymentMethod: {PaymentMethod} }")]
         public int PaymentId { get; set; }
         public int OrderId { get; set; }
         public decimal Amount { get; set; }
@@ -28,8 +30,25 @@ namespace Domain.Entities
         public string? Cvv { get; init; }
         #endregion
 
-
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+
+        public bool IsValidCardNumber()
+        {
+            return !string.IsNullOrWhiteSpace(CardNumber) && CardNumber.Length >= 13 && CardNumber.Length <= 19;
+        }
+
+        public bool IsValidExpiryDate()
+        {
+            //returns true if the expiry date is in the future
+            if (DateTime.TryParseExact(ExpiryDate, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+            {
+                // Considera o último dia do mês como válido
+                var lastDayOfMonth = new DateTime(parsedDate.Year, parsedDate.Month, DateTime.DaysInMonth(parsedDate.Year, parsedDate.Month));
+                return lastDayOfMonth >= DateTime.UtcNow.Date;
+            }
+            else
+                return false;
+        }
     }
 }

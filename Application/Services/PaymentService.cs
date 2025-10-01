@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Mappings;
 using Domain.Entities;
 using Domain.Enums;
+using Domain.Exceptions;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,7 @@
 using API.Models;
 using Application.DTO.Payment;
 using Application.Interfaces;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,9 +81,13 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-        public IActionResult Update(int id, [FromBody] UpdatePaymentRequest paymentRequest)
+        public IActionResult Update(int id, [FromQuery] PaymentStatus paymentStatus)
         {
-            paymentRequest.PaymentId = id;
+            UpdatePaymentRequest paymentRequest = new UpdatePaymentRequest()
+            {
+                PaymentId = id,
+                Status = paymentStatus
+            };
 
             var updated = _paymentService.UpdatePayment(paymentRequest);
             return Ok(updated);

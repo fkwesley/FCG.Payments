@@ -31,7 +31,7 @@ namespace Application.Mappings
                     throw new BusinessException("Invalid card number.");
 
                 if (!payment.IsValidExpiryDate())
-                    throw new BusinessException("The card has already expired. Provide a new card");
+                    throw new BusinessException("The card has already expired or is invalid. Provide a new card");
             }
 
             return payment;

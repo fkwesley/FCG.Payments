@@ -15,7 +15,7 @@ RUN dotnet restore FCG.Payments.sln
 RUN dotnet build FCG.Payments.sln -c Release --no-restore
 
 # Publish the application
-RUN dotnet publish API/API.csproj -c Release -o /app/publish --no-restore
+RUN dotnet publish Adapters/Driver/API/API.csproj -c Release -o /app/publish --no-restore
 
 # Stage 2 - Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

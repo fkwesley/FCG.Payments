@@ -1,15 +1,13 @@
 ﻿using Application.Settings;
 using Domain.Entities;
 using Domain.Enums;
-using Infrastructure.Repositories;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
+using Infrastructure.Interfaces;
+using Infrastructure.Services;
 using Microsoft.Extensions.Options;
 using Moq;
-using Infrastructure.Services;
-using Infrastructure.Interfaces;
 
-namespace Tests.UnitTests.FCG.Tests.Application.Services
+namespace UnitTests.Application.Services
 {
     public class LoggerServiceTests
     {

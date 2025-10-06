@@ -130,6 +130,7 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 //infra services
 builder.Services.AddScoped<ILoggerService, LoggerService>();
+builder.Services.AddScoped<IServiceBusPublisher, ServiceBusPublisher>();
 
 //repositories
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();

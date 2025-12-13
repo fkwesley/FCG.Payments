@@ -1,13 +1,12 @@
-name: CI/CD - FCG.Payments - ACA
+name: CI/CD - FCG.Payments
   
 on:
-  workflow_dispatch:    # Manual trigger from GitHub UI
-  # push:
-  #   branches:
-  #     - '**'
-  #   paths-ignore:
-  #     - '**/README.md'
-  #     - 'Documentation/**'
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**/README.md'
+      - 'Documentation/**'
 
 jobs:
   build-test-pushDockerImage:

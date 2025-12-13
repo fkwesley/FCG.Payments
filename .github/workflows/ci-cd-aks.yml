@@ -112,9 +112,6 @@ jobs:
       - name: Apply Namespaces
         run: kubectl apply -f Kubernetes/namespace.yaml
         
-      # - name: Apply Ingress
-      #   run: kubectl apply -f Kubernetes/ingress-uat.yaml -n fcg-payments-uat
-
       - name: Apply ConfigMap and Secret
         run: |
              export FCG_DB_CONNECTION_STRING="${{ secrets.FCG_DB_CONNECTION_STRING }}"
@@ -158,9 +155,6 @@ jobs:
       - name: Apply Namespaces
         run: kubectl apply -f Kubernetes/namespace.yaml
         
-      # - name: Apply Ingress
-      #   run: kubectl apply -f Kubernetes/ingress.yaml -n fcg
-
       - name: Apply ConfigMap and Secret
         run: |
              export FCG_DB_CONNECTION_STRING="${{ secrets.FCG_DB_CONNECTION_STRING }}"

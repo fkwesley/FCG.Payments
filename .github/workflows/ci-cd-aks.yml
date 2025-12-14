@@ -173,3 +173,7 @@ jobs:
              envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payment -f -          # aplica o deployment com substituição de variáveis
              kubectl apply -f Kubernetes/service.yaml -n fcg-payment                            # aplica o service
              kubectl rollout status deployment/fcg-payments -n fcg-payment                      # aguarda o rollout completar
+      
+      - name: Deploy HPA
+        run: |
+             kubectl apply -f Kubernetes/hpa.yaml -n fcg-payments                               # aplica o HPA

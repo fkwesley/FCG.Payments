@@ -88,7 +88,7 @@ jobs:
              export IMAGE_TAG="${{ needs.build-test-pushDockerImage.outputs.image_tag }}"            # tag da imagem Docker
              envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payments-dev -f -          # aplica o deployment com substituição de variáveis
              kubectl apply -f Kubernetes/service.yaml -n fcg-payments-dev                            # aplica o service
-             kubectl rollout status deployment/fcg-users -n fcg-payments-dev                         # aguarda o rollout completar
+             kubectl rollout status deployment/fcg-payments -n fcg-payments-dev                      # aguarda o rollout completar
 
   deploy-uat:
     needs:
@@ -129,7 +129,7 @@ jobs:
              export IMAGE_TAG="${{ needs.build-test-pushDockerImage.outputs.image_tag }}"            # tag da imagem Docker
              envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payments-uat -f -          # aplica o deployment com substituição de variáveis
              kubectl apply -f Kubernetes/service.yaml -n fcg-payments-uat                            # aplica o service
-             kubectl rollout status deployment/fcg-users -n fcg-payments-uat                         # aguarda o rollout completar
+             kubectl rollout status deployment/fcg-payments -n fcg-payments-uat                      # aguarda o rollout completar
 
   deploy-prd:
     needs:
@@ -172,4 +172,4 @@ jobs:
              export IMAGE_TAG="${{ needs.build-test-pushDockerImage.outputs.image_tag }}"       # tag da imagem Docker
              envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payment -f -          # aplica o deployment com substituição de variáveis
              kubectl apply -f Kubernetes/service.yaml -n fcg-payment                            # aplica o service
-             kubectl rollout status deployment/fcg-users -n fcg-payment                         # aguarda o rollout completar
+             kubectl rollout status deployment/fcg-payments -n fcg-payment                      # aguarda o rollout completar

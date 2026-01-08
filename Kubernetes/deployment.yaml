@@ -48,6 +48,6 @@ spec:
           # ==========================
           envFrom:
             - configMapRef:
-                name: fcg-orders-config
+                name: fcg-payments-config
             - secretRef:
-                name: fcg-orders-secret
+                name: fcg-payments-secret

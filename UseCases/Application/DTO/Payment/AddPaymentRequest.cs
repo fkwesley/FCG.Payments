@@ -8,6 +8,8 @@ namespace Application.DTO.Payment
     {
         [JsonIgnore]
         public int? PaymentId { get; set; }
+        [JsonIgnore]
+        public string? Email { get; set; }
         public int OrderId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }

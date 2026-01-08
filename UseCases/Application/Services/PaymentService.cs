@@ -17,21 +17,21 @@ namespace Application.Services
         private readonly ILoggerService _loggerService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly IServiceScopeFactory _scopeFactory; 
-        private readonly IServiceBusPublisher _serviceBusPublisher;
+        private readonly IMessagePublisherFactory _publisherFactory;
 
         public PaymentService(
                 IPaymentRepository paymentRepository, 
                 ILoggerService loggerService,
                 IHttpContextAccessor httpContext,
                 IServiceScopeFactory scopeFactory,
-                IServiceBusPublisher serviceBusPublisher)
+                IMessagePublisherFactory publisherFactory)
         {
             _paymentRepository = paymentRepository
                 ?? throw new ArgumentNullException(nameof(paymentRepository));
             _loggerService = loggerService;
             _httpContext = httpContext;
             _scopeFactory = scopeFactory; 
-            _serviceBusPublisher = serviceBusPublisher;
+            _publisherFactory = publisherFactory;
         }
 
         public async Task<IEnumerable<PaymentResponse>> GetAllPaymentsAsync()
@@ -68,6 +68,20 @@ namespace Application.Services
 
             var paymentAdded = _paymentRepository.AddPayment(paymentEntity);
 
+            // Publishing notification to the queue on RabbitMQ (AwaitingPayment)
+            var rabbitMqPublisher = _publisherFactory.GetPublisher("RabbitMQ");
+            rabbitMqPublisher.PublishMessageAsync("fcg.notifications.queue", new
+            {
+                RequestId = paymentAdded.OrderId,
+                TemplateId = "OrderStatusChanged",
+                payment.Email,
+                Parameters = new Dictionary<string, string>()
+                {
+                    { "{orderId}", paymentAdded.OrderId.ToString() },
+                    { "{newStatus}", "AwaitingPayment" }
+                }
+            });
+
             return paymentAdded.ToResponse();
         }
 
@@ -76,11 +90,13 @@ namespace Application.Services
             var paymentEntity = payment.ToEntity();
             var paymentUpdated = _paymentRepository.UpdatePayment(paymentEntity);
 
+            // Publishing payment event to the queue on Azure Service Bus
+            var serviceBusPublisher = _publisherFactory.GetPublisher("ServiceBus");
             if (paymentUpdated.Status == PaymentStatus.Completed)
             {
                 // Publishing completed payment event to the topic on Azure Service Bus
-                _serviceBusPublisher.PublishMessageAsync(
-                    topicName: "fcg.paymentstopic",
+                serviceBusPublisher.PublishMessageAsync(
+                    topicOrQueueName: "fcg.paymentstopic",
                     message: new
                     {
                         paymentUpdated.Status

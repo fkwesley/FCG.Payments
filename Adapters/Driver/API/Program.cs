@@ -5,6 +5,7 @@ using Application.Services;
 using Application.Settings;
 using Domain.Repositories;
 using Infrastructure.Context;
+using Infrastructure.Factories;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -131,7 +132,13 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 //infra services
 builder.Services.AddScoped<ILoggerService, LoggerService>();
-builder.Services.AddScoped<IServiceBusPublisher, ServiceBusPublisher>();
+builder.Services.AddSingleton<IMessagePublisher, RabbitMQPublisher>();
+builder.Services.AddSingleton<IMessagePublisher, ServiceBusPublisher>();
+
+builder.Services.AddSingleton<RabbitMQPublisher>();
+builder.Services.AddSingleton<ServiceBusPublisher>();
+
+builder.Services.AddSingleton<IMessagePublisherFactory, MessagePublisherFactory>();
 
 //repositories
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();

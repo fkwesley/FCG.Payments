@@ -75,6 +75,7 @@ jobs:
         run: |
              export FCG_DB_CONNECTION_STRING="${{ secrets.FCG_DB_CONNECTION_STRING }}"
              export FCG_SERVICEBUS_CONNECTION_STRING="${{ secrets.FCG_SERVICEBUS_CONNECTION_STRING }}"
+             export FCG_RABBITMQ_CONNECTION_STRING="${{ secrets.FCG_RABBITMQ_CONNECTION_STRING }}" 
              export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
              export NEW_RELIC_APP_NAME="${{ vars.NEW_RELIC_APP_NAME }}"
              export NEW_RELIC_ENABLED="${{ vars.NEW_RELIC_ENABLED }}"
@@ -116,6 +117,7 @@ jobs:
         run: |
              export FCG_DB_CONNECTION_STRING="${{ secrets.FCG_DB_CONNECTION_STRING }}"
              export FCG_SERVICEBUS_CONNECTION_STRING="${{ secrets.FCG_SERVICEBUS_CONNECTION_STRING }}"
+             export FCG_RABBITMQ_CONNECTION_STRING="${{ secrets.FCG_RABBITMQ_CONNECTION_STRING }}" 
              export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
              export NEW_RELIC_APP_NAME="${{ vars.NEW_RELIC_APP_NAME }}"
              export NEW_RELIC_ENABLED="${{ vars.NEW_RELIC_ENABLED }}"
@@ -159,6 +161,7 @@ jobs:
         run: |
              export FCG_DB_CONNECTION_STRING="${{ secrets.FCG_DB_CONNECTION_STRING }}"
              export FCG_SERVICEBUS_CONNECTION_STRING="${{ secrets.FCG_SERVICEBUS_CONNECTION_STRING }}"
+             export FCG_RABBITMQ_CONNECTION_STRING="${{ secrets.FCG_RABBITMQ_CONNECTION_STRING }}" 
              export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
              export NEW_RELIC_APP_NAME="${{ vars.NEW_RELIC_APP_NAME }}"
              export NEW_RELIC_ENABLED="${{ vars.NEW_RELIC_ENABLED }}"

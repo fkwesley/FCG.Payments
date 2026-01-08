@@ -42,47 +42,12 @@ spec:
             requests:
               cpu: 150m         # Sobra ~1,1 vCPU para kube-system + picos
               memory: 200Mi     # Sobra ~1,7 GiB para kube-system + DaemonSets
-          env:
-            # from ConfigMap
-            - name: NEW_RELIC_APP_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: fcg-payments-config
-                  key: NEW_RELIC_APP_NAME
 
-            - name: NewRelic__Enabled
-              valueFrom:
-                configMapKeyRef:
-                  name: fcg-payments-config
-                  key: NewRelic__Enabled
-
-            - name: NewRelic__Endpoint
-              valueFrom:
-                configMapKeyRef:
-                  name: fcg-payments-config
-                  key: NewRelic__Endpoint
-
-            - name: AspNetCore_Environment
-              valueFrom:
-                configMapKeyRef:
-                  name: fcg-payments-config
-                  key: AspNetCore_Environment
-
-            # from Secret
-            - name: ConnectionStrings__FCGUsersDbConnection
-              valueFrom:
-                secretKeyRef:
-                  name: fcg-payments-secret
-                  key: FCG_DB_CONNECTION_STRING
-
-            - name: ConnectionStrings__FCGServiceBusConnection
-              valueFrom:
-                secretKeyRef:
-                  name: fcg-payments-secret
-                  key: FCG_SERVICEBUS_CONNECTION_STRING
-
-            - name: NEW_RELIC_LICENSE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: fcg-payments-secret
-                  key: NEW_RELIC_LICENSE_KEY
+          # ==========================
+          # Variáveis de ambiente
+          # ==========================
+          envFrom:
+            - configMapRef:
+                name: fcg-orders-config
+            - secretRef:
+                name: fcg-orders-secret

@@ -167,15 +167,15 @@ jobs:
              export NEW_RELIC_ENABLED="${{ vars.NEW_RELIC_ENABLED }}"
              export NEW_RELIC_ENDPOINT="${{ vars.NEW_RELIC_ENDPOINT }}"
              export ENV="${{ vars.ENV }}"
-             envsubst < Kubernetes/configmap.yaml | kubectl apply -n fcg-payment -f -           # aplica o configmap com substituição de variáveis
-             envsubst < Kubernetes/secret.yaml | kubectl apply -n fcg-payment -f -              # aplica o secret com substituição de variáveis
+             envsubst < Kubernetes/configmap.yaml | kubectl apply -n fcg-payments -f -           # aplica o configmap com substituição de variáveis
+             envsubst < Kubernetes/secret.yaml | kubectl apply -n fcg-payments -f -              # aplica o secret com substituição de variáveis
 
       - name: Deploy to AKS - PRD
         run: |
              export IMAGE_TAG="${{ needs.build-test-pushDockerImage.outputs.image_tag }}"       # tag da imagem Docker
-             envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payment -f -          # aplica o deployment com substituição de variáveis
-             kubectl apply -f Kubernetes/service.yaml -n fcg-payment                            # aplica o service
-             kubectl rollout status deployment/fcg-payments -n fcg-payment                      # aguarda o rollout completar
+             envsubst < Kubernetes/deployment.yaml | kubectl apply -n fcg-payments -f -          # aplica o deployment com substituição de variáveis
+             kubectl apply -f Kubernetes/service.yaml -n fcg-payments                            # aplica o service
+             kubectl rollout status deployment/fcg-payments -n fcg-payments                      # aguarda o rollout completar
       
       - name: Deploy HPA
         run: |

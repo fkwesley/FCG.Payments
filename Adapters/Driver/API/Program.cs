@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Elastic.Apm.NetCoreAll;
 
 #region initializing
 var builder = WebApplication.CreateBuilder(args);
@@ -166,6 +167,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+if (configuration["ElasticApm:Enabled"].ToLower() == "true")
+    builder.Services.AddAllElasticApm();
 #endregion
 
 #region invalidModel

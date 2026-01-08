@@ -7,6 +7,9 @@ namespace Application.DTO.Payment
     {
         [JsonIgnore]
         public int PaymentId { get; set; }
+        [JsonIgnore]
+        public string? Email { get; set; }
         public required PaymentStatus Status { get; set; }
+
     }
 }

@@ -8,8 +8,6 @@ namespace Application.DTO.Payment
     {
         [JsonIgnore]
         public int? PaymentId { get; set; }
-        [JsonIgnore]
-        public string? Email { get; set; }
         public int OrderId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
@@ -26,5 +24,6 @@ namespace Application.DTO.Payment
         [RegularExpression(@"^\d{3}$", ErrorMessage = "Cvv must be 3 digits")]
         [DisplayFormat(DataFormatString = "123")]
         public string? Cvv { get; init; }
+        public required string Email { get; set; }
     }
 }

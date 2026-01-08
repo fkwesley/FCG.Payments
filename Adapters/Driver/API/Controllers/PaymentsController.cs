@@ -64,9 +64,6 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
         public IActionResult Add([FromBody] AddPaymentRequest paymentRequest)
         {
-            // getting user_email from context (provided by token)
-            paymentRequest.Email = HttpContext.User?.FindFirst("user_email")?.Value;
-
             var createdPayment = _paymentService.AddPayment(paymentRequest);
             return CreatedAtAction(nameof(GetById), new { id = createdPayment.OrderId }, createdPayment);
         }
@@ -89,8 +86,7 @@ namespace API.Controllers
             UpdatePaymentRequest paymentRequest = new UpdatePaymentRequest()
             {
                 PaymentId = id,
-                Status = paymentStatus,
-                Email = HttpContext.User?.FindFirst("user_email")?.Value
+                Status = paymentStatus
             };
 
             var updated = _paymentService.UpdatePayment(paymentRequest);
